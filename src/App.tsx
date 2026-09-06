@@ -3,9 +3,9 @@ import { parseWeatherSnapshot, type WeatherSnapshot } from "./weatherSnapshot";
 
 type ConnectionState = "connecting" | "connected" | "disconnected";
 
-const streamUrl =
-  import.meta.env.VITE_WEATHER_STREAM_URL ??
-  "http://localhost:8000/api/v1/readings/stream";
+const selectedStationId = "station-01";
+const apiBaseUrl = import.meta.env.VITE_WEATHER_API_URL ?? "http://localhost:8000";
+const streamUrl = `${apiBaseUrl}/api/v1/readings/${selectedStationId}/stream`;
 
 const measurementDefinitions = [
   { key: "air_temperature", label: "Air temperature", unit: "C", icon: "TEMP" },
@@ -69,7 +69,7 @@ function App() {
       <section className="hero-panel" aria-live="polite">
         <div>
           <p className="panel-label">Current station</p>
-          <p className="station-name">{snapshot?.device_id ?? "No station connected"}</p>
+          <p className="station-name">{selectedStationId  ?? "No station connected"}</p>
         </div>
         <div className="update-meta">
           <span>Last update</span>
