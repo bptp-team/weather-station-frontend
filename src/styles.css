@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  font-family: "Space Grotesk", sans-serif;
+  color: #102a43;
+  background: #f3f7f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: radial-gradient(circle at 8% 8%, #d7eee3 0, transparent 32%), linear-gradient(135deg, #f7faf8 0%, #eaf4f0 100%);
+}
+
+.app-shell { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 32px; }
+
+.topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
+.eyebrow, .panel-label, .footer-note, .connection, .measurement-heading, code { font-family: "DM Mono", monospace; }
+.eyebrow { margin: 0 0 10px; color: #6b7c76; font-size: 0.72rem; letter-spacing: 0.08em; }
+h1 { margin: 0; font-size: clamp(2.2rem, 6vw, 4.5rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 600; }
+
+.connection { display: flex; align-items: center; gap: 9px; padding-top: 10px; color: #496056; font-size: 0.78rem; text-transform: uppercase; }
+.connection-dot { width: 9px; height: 9px; border-radius: 50%; background: #aab8b1; }
+.connection-connected .connection-dot { background: #178f68; box-shadow: 0 0 0 5px #d3eee3; }
+.connection-disconnected .connection-dot { background: #c65a43; }
+
+.hero-panel { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 25px 28px; color: #f5fbf8; background: #123c3a; border-radius: 7px; box-shadow: 12px 12px 0 #c6ded3; }
+.panel-label { margin: 0 0 8px; color: #a6ccc0; font-size: 0.72rem; text-transform: uppercase; }
+.station-name { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 500; }
+.update-meta { display: grid; gap: 7px; text-align: right; color: #a6ccc0; font-family: "DM Mono", monospace; font-size: 0.72rem; }
+.update-meta strong { color: #f5fbf8; font-size: 0.83rem; font-weight: 400; }
+
+.error-message { margin: 28px 0 0; padding: 12px 15px; color: #8d3d2e; border-left: 3px solid #c65a43; background: #fff0eb; font-family: "DM Mono", monospace; font-size: 0.78rem; }
+.measurement-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 38px; }
+.measurement { min-height: 166px; padding: 20px; background: rgba(255, 255, 255, 0.7); border: 1px solid #d8e6df; border-radius: 6px; }
+.measurement-heading { display: flex; align-items: center; gap: 10px; color: #6b7c76; font-size: 0.71rem; text-transform: uppercase; }
+.measurement-icon { display: inline-grid; place-items: center; min-width: 38px; height: 25px; color: #17735f; background: #d9eee6; border-radius: 3px; font-size: 0.62rem; }
+.measurement-value { margin: 31px 0 0; color: #123c3a; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1; font-weight: 500; letter-spacing: -0.04em; }
+.measurement-value small { margin-left: 8px; color: #6b7c76; font-family: "DM Mono", monospace; font-size: 0.72rem; letter-spacing: 0; }
+.footer-note { display: flex; align-items: center; gap: 9px; margin-top: 32px; color: #758880; font-size: 0.67rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.footer-note span { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: #178f68; }
+code { overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 700px) {
+  .app-shell { width: min(100% - 28px, 520px); padding-top: 34px; }
+  .topbar { margin-bottom: 30px; }
+  .hero-panel { align-items: flex-start; flex-direction: column; padding: 21px; box-shadow: 7px 7px 0 #c6ded3; }
+  .update-meta { text-align: left; }
+  .measurement-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 30px; }
+  .measurement { min-height: 140px; padding: 15px; }
+  .measurement-value { margin-top: 24px; }
+}
+
+@media (max-width: 390px) {
+  .topbar { display: block; }
+  .connection { padding-top: 20px; }
+  .measurement-grid { grid-template-columns: 1fr; }
+}
