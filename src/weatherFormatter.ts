@@ -46,9 +46,10 @@ function formatReceivedAt(receivedAt: string): string {
     return receivedAt;
   }
 
-  return date.toLocaleTimeString([], {
+  return date.toLocaleTimeString("pt-BR", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
+    hourCycle: "h23",
   });
 }

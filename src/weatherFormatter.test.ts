@@ -23,10 +23,11 @@ describe("formatWeatherSnapshot", () => {
       water_level: 12.005,
       received_at: "2026-09-06T00:00:00+00:00",
     };
-    const expectedReceivedAt = new Date(snapshot.received_at).toLocaleTimeString([], {
+    const expectedReceivedAt = new Date(snapshot.received_at).toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
+      hourCycle: "h23",
     });
 
     expect(formatWeatherSnapshot(snapshot)).toEqual({
@@ -39,5 +40,7 @@ describe("formatWeatherSnapshot", () => {
       water_level: "12.01",
       received_at: expectedReceivedAt,
     });
+
+    expect(formatWeatherSnapshot(snapshot).received_at).toMatch(/^\d{2}:\d{2}:\d{2}$/);
   });
 });
