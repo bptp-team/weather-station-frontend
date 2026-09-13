@@ -7,7 +7,7 @@ describe("App", () => {
     const markup = renderToStaticMarkup(<App />);
 
     expect(markup).toContain("TRANSMISSÃO METEOROLÓGICA AO VIVO");
-    expect(markup).toContain("Monitor da estação");
+    expect(markup).toContain("Monitor meteorológico");
     expect(markup).toContain("conectando");
     expect(markup).toContain("Estação atual");
     expect(markup).toContain("station-01");
