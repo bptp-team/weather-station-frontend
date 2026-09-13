@@ -1,5 +1,13 @@
 import type { WeatherSnapshot } from "./weatherSnapshot";
 
+export type ConnectionState = "connecting" | "connected" | "disconnected";
+
+const connectionStateLabels: Record<ConnectionState, string> = {
+  connecting: "conectando",
+  connected: "conectado",
+  disconnected: "desconectado",
+};
+
 const numericFields = [
   "air_temperature",
   "air_pressure",
@@ -13,6 +21,10 @@ type NumericField = (typeof numericFields)[number];
 
 export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField> &
   Record<NumericField, string>;
+
+export function formatConnectionState(state: ConnectionState): string {
+  return connectionStateLabels[state];
+}
 
 export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeatherSnapshot {
   return {

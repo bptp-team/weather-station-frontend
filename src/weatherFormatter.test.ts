@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { formatWeatherSnapshot } from "./weatherFormatter";
+import { formatConnectionState, formatWeatherSnapshot } from "./weatherFormatter";
+
+describe("formatConnectionState", () => {
+  it.each([
+    ["connecting", "conectando"],
+    ["connected", "conectado"],
+    ["disconnected", "desconectado"],
+  ] as const)("maps %s to %s", (state, expectedLabel) => {
+    expect(formatConnectionState(state)).toBe(expectedLabel);
+  });
+});
 
 describe("formatWeatherSnapshot", () => {
   it("formats every measurement to two decimal places", () => {
