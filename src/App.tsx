@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { parseWeatherSnapshot, type WeatherSnapshot } from "./weatherSnapshot";
+import { formatWeatherSnapshot, type FormattedWeatherSnapshot } from "./weatherFormatter";
+import { parseWeatherSnapshot } from "./weatherSnapshot";
 
 type ConnectionState = "connecting" | "connected" | "disconnected";
 
@@ -17,7 +18,7 @@ const measurementDefinitions = [
 ] as const;
 
 function App() {
-  const [snapshot, setSnapshot] = useState<WeatherSnapshot | null>(null);
+  const [snapshot, setSnapshot] = useState<FormattedWeatherSnapshot | null>(null);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [lastError, setLastError] = useState<string | null>(null);
 
@@ -31,7 +32,7 @@ function App() {
 
     eventSource.onmessage = (event) => {
       try {
-        setSnapshot(parseWeatherSnapshot(event.data));
+        setSnapshot(formatWeatherSnapshot(parseWeatherSnapshot(event.data)));
       } catch {
         setLastError("Received an unreadable weather update.");
       }
@@ -45,13 +46,7 @@ function App() {
     return () => eventSource.close();
   }, []);
 
-  const receivedAt = snapshot
-    ? new Date(snapshot.received_at).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      })
-    : "Waiting for the first snapshot";
+  const receivedAt = snapshot?.received_at ?? "Waiting for the first snapshot";
 
   return (
     <main className="app-shell">
