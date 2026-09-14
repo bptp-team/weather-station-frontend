@@ -26,6 +26,19 @@ export function formatConnectionState(state: ConnectionState): string {
   return connectionStateLabels[state];
 }
 
+export function formatDateTime(value: string | number, options: Intl.DateTimeFormatOptions): string {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return new Intl.DateTimeFormat("pt-BR", {
+    ...options,
+    hourCycle: "h23",
+  }).format(date);
+}
+
 export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeatherSnapshot {
   return {
     device_id: snapshot.device_id,
@@ -35,21 +48,10 @@ export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeath
     air_quality: snapshot.air_quality.toFixed(2),
     daylight: snapshot.daylight.toFixed(2),
     water_level: snapshot.water_level.toFixed(2),
-    received_at: formatReceivedAt(snapshot.received_at),
+    received_at: formatDateTime(snapshot.received_at, {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
   };
-}
-
-function formatReceivedAt(receivedAt: string): string {
-  const date = new Date(receivedAt);
-
-  if (Number.isNaN(date.getTime())) {
-    return receivedAt;
-  }
-
-  return date.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hourCycle: "h23",
-  });
 }
