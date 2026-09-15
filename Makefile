@@ -1,13 +1,16 @@
-.PHONY: setup install dev test build preview
+.PHONY: setup install install-hooks dev test build preview
 
 setup:
 	corepack enable
 	corepack prepare pnpm@12 --activate
-
+	
 install:
 	pnpm install --frozen-lockfile
 
-dev:
+install-hooks:
+	git config core.hooksPath .githooks
+
+dev: install-hooks
 	pnpm dev
 
 test:
