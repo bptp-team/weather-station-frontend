@@ -64,7 +64,7 @@ export function LiveDashboard({ stationId }: Props) {
 
       <footer className="footer-note">
         <span />
-        Transmitindo de <code>{streamUrl}</code>
+        Transmitindo de {streamUrl}
       </footer>
     </>
   );
