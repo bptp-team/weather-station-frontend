@@ -10,5 +10,5 @@ export function formatChartDate(timestamp: number) {
 }
 
 export function formatChartValue(value: number, unit: string) {
-  return `${value} ${unit}`;
+  return `${value.toFixed(2)} ${unit}`;
 }

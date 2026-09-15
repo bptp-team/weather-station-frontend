@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatDateTime } from "../../../weatherFormatter";
-import { formatChartDate } from "./ChartTooltip";
+import { formatChartDate, formatChartValue } from "./ChartTooltip";
 
 describe("formatChartDate", () => {
   it("uses the shared date formatter for chart labels", () => {
@@ -13,5 +13,12 @@ describe("formatChartDate", () => {
     });
 
     expect(formatChartDate(timestamp)).toBe(expected);
+  });
+});
+
+describe("formatChartValue", () => {
+  it("formats values with exactly two decimal places", () => {
+    expect(formatChartValue(23.456, "°C")).toBe("23.46 °C");
+    expect(formatChartValue(10, "atm")).toBe("10.00 atm");
   });
 });
