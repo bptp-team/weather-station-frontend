@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createLiveReadingsStream } from "../../live/api/liveReadingsStream";
 import { fetchHistoricalReadings } from "../api/historicalReadingsApi";
-import { getHistoryRange } from "../dateRanges";
-import { mapHistoryPoints } from "../data/historyMappers";
+import { getHistoryRange, getRangeMilliseconds } from "../dateRanges";
+import { mapHistoryPoints, mergeLivePoint, parseLiveHistoryMessage } from "../data/historyMappers";
 import type { HistoryPoint, HistoryRange } from "../types";
 
 export function useHistoricalReadings(stationId: string, range: HistoryRange) {
@@ -9,6 +10,8 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryKey, setRetryKey] = useState(0);
+  const rangeMsRef = useRef(getRangeMilliseconds(range));
+  rangeMsRef.current = getRangeMilliseconds(range);
 
   const retry = useCallback(() => setRetryKey((key) => key + 1), []);
 
@@ -30,6 +33,18 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
 
     return () => controller.abort();
   }, [range, retryKey, stationId]);
+
+  useEffect(() => {
+    const eventSource = createLiveReadingsStream(stationId);
+
+    eventSource.onmessage = (event) => {
+      const point = parseLiveHistoryMessage(event.data, stationId);
+      if (!point) return;
+      setData((previous) => mergeLivePoint(previous, point, rangeMsRef.current, Date.now()));
+    };
+
+    return () => eventSource.close();
+  }, [stationId]);
 
   return { data, isLoading, error, retry };
 }

@@ -17,3 +17,12 @@ export function getHistoryRange(range: HistoryRange, now = new Date()) {
 
   return { from, to };
 }
+
+export function getRangeMilliseconds(range: HistoryRange): number {
+  const option = historyRangeOptions.find((item) => item.value === range);
+  if (!option) {
+    throw new Error(`Unsupported history range: ${range}`);
+  }
+
+  return option.milliseconds;
+}
