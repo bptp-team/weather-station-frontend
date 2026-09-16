@@ -14,7 +14,7 @@ const numericFields = [
   "air_humidity",
   "air_quality",
   "daylight",
-  "water_level",
+  "precipitation_interval",
 ] as const;
 
 type NumericField = (typeof numericFields)[number];
@@ -47,7 +47,7 @@ export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeath
     air_humidity: snapshot.air_humidity.toFixed(2),
     air_quality: snapshot.air_quality.toFixed(2),
     daylight: snapshot.daylight.toFixed(2),
-    water_level: snapshot.water_level.toFixed(2),
+    precipitation_interval: snapshot.precipitation_interval.toFixed(2),
     received_at: formatDateTime(snapshot.received_at, {
       hour: "2-digit",
       minute: "2-digit",

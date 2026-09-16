@@ -6,9 +6,9 @@ import {
   AirQualityChart,
   DaylightChart,
   HumidityChart,
+  PrecipitationIntervalChart,
   PressureChart,
   TemperatureChart,
-  WaterLevelChart,
 } from "./index";
 
 type Props = { stationId: string };
@@ -49,7 +49,7 @@ export function HistoryDashboard({ stationId }: Props) {
           <PressureChart data={data} />
           <AirQualityChart data={data} />
           <DaylightChart data={data} />
-          <WaterLevelChart data={data} />
+          <PrecipitationIntervalChart data={data} />
         </div>
       )}
     </section>

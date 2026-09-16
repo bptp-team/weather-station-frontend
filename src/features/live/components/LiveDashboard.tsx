@@ -8,7 +8,7 @@ const measurementDefinitions = [
   { key: "air_humidity", label: "Umidade do ar", unit: "%", icon: "HUM" },
   { key: "air_quality", label: "Qualidade do ar", unit: "AQI", icon: "AQ" },
   { key: "daylight", label: "Luz natural", unit: "lx", icon: "LUX" },
-  { key: "water_level", label: "Nível da água", unit: "cm", icon: "WATER" },
+  { key: "precipitation_interval", label: "Precipitação (intervalo)", unit: "mm", icon: "CHUVA" },
 ] as const;
 
 type Props = { stationId: string };

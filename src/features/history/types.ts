@@ -5,7 +5,7 @@ export type HistoricalReading = {
   air_humidity: number;
   air_quality: number;
   daylight: number;
-  water_level: number;
+  precipitation_interval: number;
   received_at: string;
 };
 

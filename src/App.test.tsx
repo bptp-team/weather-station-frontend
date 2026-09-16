@@ -21,12 +21,12 @@ describe("App", () => {
     expect(markup).toContain("Umidade do ar</span>");
     expect(markup).toContain("Qualidade do ar</span>");
     expect(markup).toContain("Luz natural</span>");
-    expect(markup).toContain("Nível da água</span>");
+    expect(markup).toContain("Precipitação (intervalo)</span>");
     expect(markup).toContain("<small>C</small>");
     expect(markup).toContain("<small>atm</small>");
     expect(markup).toContain("<small>%</small>");
     expect(markup).toContain("<small>AQI</small>");
     expect(markup).toContain("<small>lx</small>");
-    expect(markup).toContain("<small>cm</small>");
+    expect(markup).toContain("<small>mm</small>");
   });
 });

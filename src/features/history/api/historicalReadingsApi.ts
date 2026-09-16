@@ -11,7 +11,7 @@ function isHistoricalReading(value: unknown): value is HistoricalReading {
     "air_humidity",
     "air_quality",
     "daylight",
-    "water_level",
+    "precipitation_interval",
   ];
 
   return (

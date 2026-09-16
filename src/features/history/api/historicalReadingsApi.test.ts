@@ -8,7 +8,7 @@ const reading = {
   air_humidity: 45,
   air_quality: 4,
   daylight: 2748,
-  water_level: 12,
+  precipitation_interval: 0.5,
   received_at: "2026-09-13T12:00:00.000Z",
 };
 

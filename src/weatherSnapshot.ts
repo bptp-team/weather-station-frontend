@@ -5,7 +5,7 @@ export type WeatherSnapshot = {
   air_humidity: number;
   air_quality: number;
   daylight: number;
-  water_level: number;
+  precipitation_interval: number;
   received_at: string;
 };
 
@@ -15,7 +15,7 @@ const numericFields = [
   "air_humidity",
   "air_quality",
   "daylight",
-  "water_level",
+  "precipitation_interval",
 ] as const;
 
 export function parseWeatherSnapshot(eventData: string): WeatherSnapshot {

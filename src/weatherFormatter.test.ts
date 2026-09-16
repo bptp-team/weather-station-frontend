@@ -20,7 +20,7 @@ describe("formatWeatherSnapshot", () => {
       air_humidity: 45,
       air_quality: 4.1,
       daylight: 2748.9,
-      water_level: 12.005,
+      precipitation_interval: 0.503,
       received_at: "2026-09-06T00:00:00+00:00",
     };
     const expectedReceivedAt = new Date(snapshot.received_at).toLocaleTimeString("pt-BR", {
@@ -37,7 +37,7 @@ describe("formatWeatherSnapshot", () => {
       air_humidity: "45.00",
       air_quality: "4.10",
       daylight: "2748.90",
-      water_level: "12.01",
+      precipitation_interval: "0.50",
       received_at: expectedReceivedAt,
     });
 
