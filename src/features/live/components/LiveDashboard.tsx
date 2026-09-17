@@ -1,4 +1,5 @@
-import { formatConnectionState } from "../../../weatherFormatter";
+import { useEffect, useState } from "react";
+import { formatConnectionState, formatCountdown } from "../../../weatherFormatter";
 import { getLiveReadingsStreamUrl } from "../api/liveReadingsStream";
 import { useLiveReadings } from "../hooks/useLiveReadings";
 
@@ -17,6 +18,20 @@ export function LiveDashboard({ stationId }: Props) {
   const { snapshot, connectionState, lastError } = useLiveReadings(stationId);
   const streamUrl = getLiveReadingsStreamUrl(stationId);
   const receivedAt = snapshot?.received_at ?? "Aguardando a primeira leitura";
+  const [now, setNow] = useState(() => Date.now());
+  const countdown = snapshot ? formatCountdown(snapshot.received_at_raw, now) : "05:00";
+
+  useEffect(() => {
+    if (!snapshot) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [snapshot]);
 
   return (
     <>
@@ -37,8 +52,11 @@ export function LiveDashboard({ stationId }: Props) {
           <p className="station-name">{stationId || "Nenhuma estação conectada"}</p>
         </div>
         <div className="update-meta">
-          <span>Última atualização</span>
-          <strong>{receivedAt}</strong>
+          <div className="update-meta-row">
+            <span>Última atualização:</span>
+            <strong>{receivedAt}</strong>
+          </div>
+          <small className="countdown">Próxima atualização: {countdown}</small>
         </div>
       </section>
 

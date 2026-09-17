@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { formatConnectionState, formatDateTime, formatWeatherSnapshot } from "./weatherFormatter";
+import {
+  formatConnectionState,
+  formatCountdown,
+  formatDateTime,
+  formatWeatherSnapshot,
+} from "./weatherFormatter";
 
 describe("formatConnectionState", () => {
   it.each([
@@ -39,9 +44,26 @@ describe("formatWeatherSnapshot", () => {
       daylight: "2748.90",
       precipitation_interval: "0.50",
       received_at: expectedReceivedAt,
+      received_at_raw: snapshot.received_at,
     });
 
     expect(formatWeatherSnapshot(snapshot).received_at).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+  });
+});
+
+describe("formatCountdown", () => {
+  it("returns the remaining time in mm:ss based on a five-minute refresh window", () => {
+    const timestamp = "2026-09-13T12:00:00.000Z";
+    const now = new Date("2026-09-13T12:02:30.000Z").getTime();
+
+    expect(formatCountdown(timestamp, now)).toBe("02:30");
+  });
+
+  it("never goes below zero", () => {
+    const timestamp = "2026-09-13T12:00:00.000Z";
+    const now = new Date("2026-09-13T12:05:01.000Z").getTime();
+
+    expect(formatCountdown(timestamp, now)).toBe("00:00");
   });
 });
 

@@ -19,11 +19,31 @@ const numericFields = [
 
 type NumericField = (typeof numericFields)[number];
 
-export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField> &
-  Record<NumericField, string>;
+export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField | "received_at"> & {
+  received_at: string;
+  received_at_raw: string;
+} & Record<NumericField, string>;
+
+const FIVE_MINUTES_IN_MS = 5 * 60 * 1000;
 
 export function formatConnectionState(state: ConnectionState): string {
   return connectionStateLabels[state];
+}
+
+export function formatCountdown(value: string | number, now = Date.now()): string {
+  const timestamp = new Date(value).getTime();
+
+  if (Number.isNaN(timestamp)) {
+    return "00:00";
+  }
+
+  const elapsedMs = Math.max(0, now - timestamp);
+  const remainingMs = Math.max(0, FIVE_MINUTES_IN_MS - elapsedMs);
+  const totalSeconds = Math.ceil(remainingMs / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 export function formatDateTime(value: string | number, options: Intl.DateTimeFormatOptions): string {
@@ -53,5 +73,6 @@ export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeath
       minute: "2-digit",
       second: "2-digit",
     }),
+    received_at_raw: snapshot.received_at,
   };
 }
