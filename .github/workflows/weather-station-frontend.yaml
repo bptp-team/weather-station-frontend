@@ -2,31 +2,39 @@ name: Weather Station Frontend CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x, 22.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
 
-    - run: pnpm install --frozen-lockfile
-    - run: pnpm lint
-    - run: pnpm format:check
-    - run: pnpm run build
-    - run: pnpm test
+      - name: Install dependencies
+        run: make install
+
+      - name: Run lint
+        run: make lint
+
+      - name: Check formatting
+        run: make format-check
+
+      - name: Build app
+        run: make build
+
+      - name: Run tests
+        run: make test
