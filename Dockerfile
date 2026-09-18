@@ -20,7 +20,7 @@ FROM nginx:1.30.4-alpine-slim AS runtime
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --chmod=0644 docker/nginx.conf /etc/nginx/nginx.conf
+COPY --chmod=0644 nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/ /usr/share/nginx/html/
 
 USER nginx

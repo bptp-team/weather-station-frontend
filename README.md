@@ -80,7 +80,7 @@ docker history weather-station-frontend     # size of each layer
   (**UID and GID** `101`) and listens on port `8080`.
 - The served files **belong to** `root`, so the **nginx** process **can read
   them but cannot change them**.
-- `docker/nginx.conf` keeps **nginx temporary files** under `/tmp`, sends
+- `nginx/nginx.conf` keeps **nginx temporary files** under `/tmp`, sends
   `index.html` with `no-cache`, caches `/assets` for **one year** and answers
   `/healthz` for the **container health check**.
 - `docker stop` sends `SIGQUIT`, which lets **nginx finish current requests**

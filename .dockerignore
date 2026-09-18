@@ -10,7 +10,7 @@
 !tsconfig.app.json
 !tsconfig.node.json
 !src/
-!docker/nginx.conf
+!nginx/nginx.conf
 
 # Excluded even inside allowed paths
 **/.env
