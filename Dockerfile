@@ -16,7 +16,7 @@ COPY src ./src
 ARG VITE_WEATHER_API_URL=""
 RUN pnpm run build
 
-FROM nginx:1.30.4-alpine-slim
+FROM nginx:1.30.4-alpine-slim AS runtime
 
 RUN rm -rf /usr/share/nginx/html/*
 
