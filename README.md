@@ -27,14 +27,40 @@ This runs the production build first and serves the compiled static bundle with
 Vite preview on `http://localhost:5173`.
 
 The `dev` target **automatically configures** the repository to use the
-**versioned Git hooks**. The `pre-push` hook runs `make test build` and
-**blocks the push** if either command fails.
+**versioned Git hooks**. The `pre-commit` hook formats the source code and then
+checks linting and formatting. The `pre-push` hook runs linting, formatting
+checks, tests, and the production build. Each hook **blocks the operation** if
+any command fails.
 
 Run the **hook setup** manually with:
 
 ```sh
 make install-hooks
 ```
+
+## Code quality
+
+Run the ESLint check with:
+
+```sh
+make lint
+```
+
+Format the source files locally with:
+
+```sh
+make format
+```
+
+Check formatting without changing files with:
+
+```sh
+make format-check
+```
+
+The GitHub Actions workflow runs `lint` and `format-check` as non-mutating
+checks before the build and test steps. Formatting is performed locally by the
+pre-commit hook, not by CI.
 
 ## Docker
 

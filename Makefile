@@ -1,4 +1,4 @@
-.PHONY: setup install install-hooks dev test build preview prod
+.PHONY: setup install install-hooks dev test build lint format format-check preview prod
 
 setup:
 	corepack enable
@@ -15,6 +15,15 @@ dev: install-hooks
 
 test:
 	corepack pnpm test
+
+lint:
+	corepack pnpm lint
+
+format:
+	corepack pnpm format
+
+format-check:
+	corepack pnpm format:check
 
 build:
 	corepack pnpm build

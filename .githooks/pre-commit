@@ -4,4 +4,4 @@ set -e
 root_dir=$(git rev-parse --show-toplevel)
 cd "$root_dir"
 
-exec make lint format-check test build
+exec make format lint format-check
