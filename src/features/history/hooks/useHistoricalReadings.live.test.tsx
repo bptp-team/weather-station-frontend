@@ -35,11 +35,14 @@ class FakeEventSource {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.useRealTimers();
   FakeEventSource.instances = [];
 });
 
 describe("useHistoricalReadings live updates", () => {
   it("appends a new point streamed via SSE to the returned data, proving the chart data actually changes", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-09-16T12:05:00.000Z"));
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(
         JSON.stringify([{ ...baseReading, received_at: "2026-09-16T12:00:00.000Z" }]),
