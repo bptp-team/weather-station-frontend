@@ -68,7 +68,7 @@ docker run -d --name weather-station-frontend --restart unless-stopped -p 127.0.
 ### Verify
 
 ```sh
-docker exec weather-station-frontend id    # uid=10001(app) gid=10001(app)
+docker exec weather-station-frontend id    # uid=101(nginx) gid=101(nginx)
 curl http://localhost:8080/healthz          # ok
 docker image ls weather-station-frontend    # total image size
 docker history weather-station-frontend     # size of each layer
@@ -76,8 +76,8 @@ docker history weather-station-frontend     # size of each layer
 
 ### Image details
 
-- **nginx** runs as a **non-root user** with **fixed UID and GID** `10001` and
-  listens on port `8080`.
+- **nginx** runs as the **non-root** `nginx` user from the base image
+  (**UID and GID** `101`) and listens on port `8080`.
 - The served files **belong to** `root`, so the **nginx** process **can read
   them but cannot change them**.
 - `docker/nginx.conf` keeps **nginx temporary files** under `/tmp`, sends
