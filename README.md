@@ -14,6 +14,18 @@ Use the **development server** with:
 make dev
 ```
 
+This starts the Vite dev server for live reloading and is intended for local
+work while developing the UI.
+
+Use the **production-like local app** with:
+
+```sh
+make prod
+```
+
+This runs the production build first and serves the compiled static bundle with
+Vite preview on `http://localhost:5173`.
+
 The `dev` target **automatically configures** the repository to use the
 **versioned Git hooks**. The `pre-push` hook runs `make test build` and
 **blocks the push** if either command fails.

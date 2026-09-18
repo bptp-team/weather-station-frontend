@@ -1,23 +1,26 @@
-.PHONY: setup install install-hooks dev test build preview
+.PHONY: setup install install-hooks dev test build preview prod
 
 setup:
 	corepack enable
 	corepack prepare pnpm@12 --activate
 	
 install:
-	pnpm install --frozen-lockfile
+	corepack pnpm install --frozen-lockfile
 
 install-hooks:
 	git config core.hooksPath .githooks
 
 dev: install-hooks
-	pnpm dev
+	corepack pnpm dev
 
 test:
-	pnpm test
+	corepack pnpm test
 
 build:
-	pnpm build
+	corepack pnpm build
 
 preview:
-	pnpm preview
+	corepack pnpm exec vite preview --host 0.0.0.0 --port 5173
+
+prod: build
+	corepack pnpm exec vite preview --host 0.0.0.0 --port 5173
