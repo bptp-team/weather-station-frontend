@@ -25,7 +25,11 @@ describe("parseWeatherSnapshot", () => {
     const incompleteSnapshot = { ...validSnapshot, daylight: undefined };
     const nonFiniteSnapshot = { ...validSnapshot, air_temperature: "23.45" };
 
-    expect(() => parseWeatherSnapshot(JSON.stringify(incompleteSnapshot))).toThrow("Invalid weather snapshot");
-    expect(() => parseWeatherSnapshot(JSON.stringify(nonFiniteSnapshot))).toThrow("Invalid weather snapshot");
+    expect(() => parseWeatherSnapshot(JSON.stringify(incompleteSnapshot))).toThrow(
+      "Invalid weather snapshot",
+    );
+    expect(() => parseWeatherSnapshot(JSON.stringify(nonFiniteSnapshot))).toThrow(
+      "Invalid weather snapshot",
+    );
   });
 });

@@ -8,16 +8,13 @@ const connectionStateLabels: Record<ConnectionState, string> = {
   disconnected: "desconectado",
 };
 
-const numericFields = [
-  "air_temperature",
-  "air_pressure",
-  "air_humidity",
-  "air_quality",
-  "daylight",
-  "precipitation_interval",
-] as const;
-
-type NumericField = (typeof numericFields)[number];
+type NumericField =
+  | "air_temperature"
+  | "air_pressure"
+  | "air_humidity"
+  | "air_quality"
+  | "daylight"
+  | "precipitation_interval";
 
 export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField | "received_at"> & {
   received_at: string;
@@ -46,7 +43,10 @@ export function formatCountdown(value: string | number, now = Date.now()): strin
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function formatDateTime(value: string | number, options: Intl.DateTimeFormatOptions): string {
+export function formatDateTime(
+  value: string | number,
+  options: Intl.DateTimeFormatOptions,
+): string {
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {

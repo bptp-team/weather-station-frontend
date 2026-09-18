@@ -21,7 +21,11 @@ const numericFields = [
 export function parseWeatherSnapshot(eventData: string): WeatherSnapshot {
   const payload: unknown = JSON.parse(eventData);
 
-  if (!isRecord(payload) || typeof payload.device_id !== "string" || typeof payload.received_at !== "string") {
+  if (
+    !isRecord(payload) ||
+    typeof payload.device_id !== "string" ||
+    typeof payload.received_at !== "string"
+  ) {
     throw new Error("Invalid weather snapshot");
   }
 

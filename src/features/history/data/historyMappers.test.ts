@@ -4,7 +4,16 @@ import { mapHistoryPoints, mergeLivePoint, parseLiveHistoryMessage } from "./his
 
 describe("mapHistoryPoints", () => {
   it("sorts readings chronologically and preserves numeric values", () => {
-    const later = { device_id: "station-01", air_temperature: 23.45, air_pressure: 1, air_humidity: 45, air_quality: 4, daylight: 2748, precipitation_interval: 0.5, received_at: "2026-09-13T12:00:00Z" };
+    const later = {
+      device_id: "station-01",
+      air_temperature: 23.45,
+      air_pressure: 1,
+      air_humidity: 45,
+      air_quality: 4,
+      daylight: 2748,
+      precipitation_interval: 0.5,
+      received_at: "2026-09-13T12:00:00Z",
+    };
     const earlier = { ...later, air_temperature: 22.1, received_at: "2026-09-13T11:00:00Z" };
 
     expect(mapHistoryPoints([later, earlier])).toMatchObject([
@@ -98,6 +107,8 @@ describe("parseLiveHistoryMessage", () => {
   });
 
   it("returns null when required numeric fields are missing", () => {
-    expect(parseLiveHistoryMessage(JSON.stringify({ device_id: "station-01" }), "station-01")).toBeNull();
+    expect(
+      parseLiveHistoryMessage(JSON.stringify({ device_id: "station-01" }), "station-01"),
+    ).toBeNull();
   });
 });

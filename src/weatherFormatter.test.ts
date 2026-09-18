@@ -71,18 +71,22 @@ describe("formatDateTime", () => {
   it("formats a valid timestamp with the requested date and time parts", () => {
     const timestamp = "2026-09-13T12:34:56.000Z";
 
-    expect(formatDateTime(timestamp, {
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      month: "2-digit",
-    })).toBe(new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      hour: "2-digit",
-      hourCycle: "h23",
-      minute: "2-digit",
-      month: "2-digit",
-    }).format(new Date(timestamp)));
+    expect(
+      formatDateTime(timestamp, {
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        month: "2-digit",
+      }),
+    ).toBe(
+      new Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        hour: "2-digit",
+        hourCycle: "h23",
+        minute: "2-digit",
+        month: "2-digit",
+      }).format(new Date(timestamp)),
+    );
   });
 
   it("returns the original value when the timestamp is invalid", () => {

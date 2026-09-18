@@ -25,7 +25,11 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
       .then((readings) => setData(mapHistoryPoints(readings)))
       .catch((requestError: unknown) => {
         if (controller.signal.aborted) return;
-        setError(requestError instanceof Error ? requestError.message : "Não foi possível carregar o histórico.");
+        setError(
+          requestError instanceof Error
+            ? requestError.message
+            : "Não foi possível carregar o histórico.",
+        );
       })
       .finally(() => {
         if (!controller.signal.aborted) setIsLoading(false);

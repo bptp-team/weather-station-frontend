@@ -17,7 +17,9 @@ function isHistoricalReading(value: unknown): value is HistoricalReading {
   return (
     typeof reading.device_id === "string" &&
     typeof reading.received_at === "string" &&
-    numericFields.every((field) => typeof reading[field] === "number" && Number.isFinite(reading[field]))
+    numericFields.every(
+      (field) => typeof reading[field] === "number" && Number.isFinite(reading[field]),
+    )
   );
 }
 

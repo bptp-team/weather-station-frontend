@@ -28,7 +28,9 @@ export function HistoryDashboard({ stationId }: Props) {
           <span>Período</span>
           <select value={range} onChange={(event) => setRange(event.target.value as HistoryRange)}>
             {historyRangeOptions.map((option) => (
-              <option value={option.value} key={option.value}>{option.label}</option>
+              <option value={option.value} key={option.value}>
+                {option.label}
+              </option>
             ))}
           </select>
         </label>
@@ -38,10 +40,14 @@ export function HistoryDashboard({ stationId }: Props) {
       {error && (
         <div className="history-state history-state-error">
           <p>Não foi possível carregar o histórico.</p>
-          <button type="button" onClick={retry}>Tentar novamente</button>
+          <button type="button" onClick={retry}>
+            Tentar novamente
+          </button>
         </div>
       )}
-      {!isLoading && !error && data.length === 0 && <p className="history-state">Nenhuma medição encontrada para este período.</p>}
+      {!isLoading && !error && data.length === 0 && (
+        <p className="history-state">Nenhuma medição encontrada para este período.</p>
+      )}
       {!isLoading && !error && data.length > 0 && (
         <div className="history-grid">
           <TemperatureChart data={data} />

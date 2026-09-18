@@ -44,17 +44,18 @@ describe("useHistoricalReadings live updates", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-09-16T12:05:00.000Z"));
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify([{ ...baseReading, received_at: "2026-09-16T12:00:00.000Z" }]),
-        { status: 200 },
-      ),
+      new Response(JSON.stringify([{ ...baseReading, received_at: "2026-09-16T12:00:00.000Z" }]), {
+        status: 200,
+      }),
     );
     vi.stubGlobal("EventSource", FakeEventSource);
 
     const { result } = renderHook(() => useHistoricalReadings("station-01", "24h"));
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
-    expect(result.current.data.map((point) => point.received_at)).toEqual(["2026-09-16T12:00:00.000Z"]);
+    expect(result.current.data.map((point) => point.received_at)).toEqual([
+      "2026-09-16T12:00:00.000Z",
+    ]);
 
     const stream = FakeEventSource.instances[0];
     expect(stream).toBeDefined();
@@ -72,7 +73,9 @@ describe("useHistoricalReadings live updates", () => {
   });
 
   it("ignores a live message for a different station", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify([]), { status: 200 }));
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify([]), { status: 200 }),
+    );
     vi.stubGlobal("EventSource", FakeEventSource);
 
     const { result } = renderHook(() => useHistoricalReadings("station-01", "24h"));
@@ -80,7 +83,11 @@ describe("useHistoricalReadings live updates", () => {
 
     const stream = FakeEventSource.instances[0];
     act(() => {
-      stream.emit({ ...baseReading, device_id: "station-02", received_at: "2026-09-16T12:05:00.000Z" });
+      stream.emit({
+        ...baseReading,
+        device_id: "station-02",
+        received_at: "2026-09-16T12:05:00.000Z",
+      });
     });
 
     expect(result.current.data).toEqual([]);
