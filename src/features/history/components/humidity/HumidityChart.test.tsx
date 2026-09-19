@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { HumidityChart } from "./HumidityChart";
-import { chartTestData } from "./chartTestData";
+import { chartTestData } from "../chartTestData";
 
 describe("HumidityChart", () => {
   it("renders its percentage description", () => {

@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { PrecipitationIntervalChart } from "./PrecipitationIntervalChart";
-import { chartTestData } from "./chartTestData";
+import { chartTestData } from "../chartTestData";
 
 describe("PrecipitationIntervalChart", () => {
   it("renders its title and millimeter description", () => {
