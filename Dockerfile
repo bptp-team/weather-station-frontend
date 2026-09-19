@@ -1,4 +1,4 @@
-FROM node:22.23.2-trixie-slim AS build
+FROM node:20-bookworm-slim AS build
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
