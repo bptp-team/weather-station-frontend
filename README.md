@@ -2,6 +2,9 @@
 
 ## Setup
 
+The frontend requires Node.js **22.22.2 or newer** and pnpm **12.3.4**.
+The Docker build uses the `node:22-trixie-slim` image.
+
 Install the **dependencies** with:
 
 ```sh
