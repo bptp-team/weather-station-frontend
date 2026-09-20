@@ -1,4 +1,4 @@
-import type { ComponentType, ReactElement, ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { HistoryPoint } from "../types";
 import { formatChartDate, formatChartValue } from "./ChartTooltip";
@@ -16,7 +16,7 @@ type HistoryChartFrameProps = {
   chartComponent: ComponentType<ChartComponentProps>;
   axisUnit?: string;
   tooltipUnit: string;
-  tooltipContent?: ReactElement;
+  tooltipValueFormatter?: (value: number) => string;
   children: ReactNode;
 };
 
@@ -27,7 +27,7 @@ export function HistoryChartFrame({
   chartComponent: ChartComponent,
   axisUnit,
   tooltipUnit,
-  tooltipContent,
+  tooltipValueFormatter,
   children,
 }: HistoryChartFrameProps) {
   return (
@@ -44,14 +44,13 @@ export function HistoryChartFrame({
               tickMargin={12}
             />
             <YAxis width="auto" unit={axisUnit} tickMargin={10} />
-            {tooltipContent ? (
-              <Tooltip content={tooltipContent} />
-            ) : (
-              <Tooltip
-                labelFormatter={(value) => formatChartDate(Number(value))}
-                formatter={(value) => formatChartValue(Number(value), tooltipUnit)}
-              />
-            )}
+            <Tooltip
+              labelFormatter={(value) => formatChartDate(Number(value))}
+              formatter={(value) =>
+                tooltipValueFormatter?.(Number(value)) ??
+                formatChartValue(Number(value), tooltipUnit)
+              }
+            />
             {children}
           </ChartComponent>
         </ResponsiveContainer>
