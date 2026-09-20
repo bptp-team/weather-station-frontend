@@ -42,9 +42,11 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
     const eventSource = createLiveReadingsStream(stationId);
 
     eventSource.onmessage = (event) => {
-      const point = parseLiveHistoryMessage(event.data, stationId);
-      if (!point) return;
-      setData((previous) => mergeLivePoint(previous, point, rangeMsRef.current, Date.now()));
+      setData((previous) => {
+        const point = parseLiveHistoryMessage(event.data, stationId);
+        if (!point) return previous;
+        return mergeLivePoint(previous, point, rangeMsRef.current, Date.now());
+      });
     };
 
     return () => eventSource.close();

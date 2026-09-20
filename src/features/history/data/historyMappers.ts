@@ -1,11 +1,30 @@
 import { parseWeatherSnapshot } from "../../../weatherSnapshot";
+import { interpretDaylight } from "../../daylight/daylightInterpreter";
 import type { HistoricalReading, HistoryPoint } from "../types";
 
 export function mapHistoryPoints(readings: HistoricalReading[]): HistoryPoint[] {
-  return readings
-    .map((reading) => ({ ...reading, timestamp: new Date(reading.received_at).getTime() }))
-    .filter((reading) => Number.isFinite(reading.timestamp))
-    .sort((left, right) => left.timestamp - right.timestamp);
+  return readings.reduce<HistoryPoint[]>((points, reading) => {
+    const point = mapHistoryPoint(reading);
+    if (!point) {
+      return points;
+    }
+
+    points.push(point);
+    return points;
+  }, []);
+}
+
+function mapHistoryPoint(reading: HistoricalReading): HistoryPoint | null {
+  const timestamp = new Date(reading.received_at).getTime();
+  if (!Number.isFinite(timestamp)) {
+    return null;
+  }
+
+  return {
+    ...reading,
+    timestamp,
+    daylight_state: interpretDaylight(reading.daylight).state,
+  };
 }
 
 export function mergeLivePoint(
@@ -35,7 +54,7 @@ export function parseLiveHistoryMessage(eventData: string, stationId: string): H
     if (snapshot.device_id !== stationId) {
       return null;
     }
-    return mapHistoryPoints([snapshot])[0] ?? null;
+    return mapHistoryPoint(snapshot);
   } catch {
     return null;
   }

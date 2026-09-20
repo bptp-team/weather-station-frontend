@@ -4,9 +4,9 @@ import { DaylightChart } from "./DaylightChart";
 import { chartTestData } from "../chartTestData";
 
 describe("DaylightChart", () => {
-  it("identifies the reading as a raw sensor value", () => {
+  it("identifies the reading as an interpreted moment of day", () => {
     const markup = renderToStaticMarkup(<DaylightChart data={chartTestData} />);
-    expect(markup).toContain("Luz natural");
-    expect(markup).toContain("Valor bruto do sensor");
+    expect(markup).toContain("Momento do dia");
+    expect(markup).toContain("Classificação direta entre dia e noite");
   });
 });

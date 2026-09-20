@@ -1,4 +1,4 @@
-import type { ComponentType, ReactNode } from "react";
+import type { ComponentType, ReactElement, ReactNode } from "react";
 import { CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { HistoryPoint } from "../types";
 import { formatChartDate, formatChartValue } from "./ChartTooltip";
@@ -16,6 +16,7 @@ type HistoryChartFrameProps = {
   chartComponent: ComponentType<ChartComponentProps>;
   axisUnit?: string;
   tooltipUnit: string;
+  tooltipContent?: ReactElement;
   children: ReactNode;
 };
 
@@ -26,28 +27,35 @@ export function HistoryChartFrame({
   chartComponent: ChartComponent,
   axisUnit,
   tooltipUnit,
+  tooltipContent,
   children,
 }: HistoryChartFrameProps) {
   return (
     <HistoryChartShell title={title} description={description}>
-      <ResponsiveContainer width="100%" height={240}>
-        <ChartComponent data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#d8e6df" />
-          <XAxis
-            dataKey="timestamp"
-            tickFormatter={formatChartDate}
-            type="number"
-            domain={["dataMin", "dataMax"]}
-            tickMargin={12}
-          />
-          <YAxis width="auto" unit={axisUnit} tickMargin={10} />
-          <Tooltip
-            labelFormatter={(value) => formatChartDate(Number(value))}
-            formatter={(value) => formatChartValue(Number(value), tooltipUnit)}
-          />
-          {children}
-        </ChartComponent>
-      </ResponsiveContainer>
+      <div>
+        <ResponsiveContainer width="100%" height={240}>
+          <ChartComponent data={data}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#d8e6df" />
+            <XAxis
+              dataKey="timestamp"
+              tickFormatter={formatChartDate}
+              type="number"
+              domain={["dataMin", "dataMax"]}
+              tickMargin={12}
+            />
+            <YAxis width="auto" unit={axisUnit} tickMargin={10} />
+            {tooltipContent ? (
+              <Tooltip content={tooltipContent} />
+            ) : (
+              <Tooltip
+                labelFormatter={(value) => formatChartDate(Number(value))}
+                formatter={(value) => formatChartValue(Number(value), tooltipUnit)}
+              />
+            )}
+            {children}
+          </ChartComponent>
+        </ResponsiveContainer>
+      </div>
     </HistoryChartShell>
   );
 }

@@ -1,3 +1,5 @@
+import type { DaylightState } from "../daylight/daylightConfig";
+
 export type HistoricalReading = {
   device_id: string;
   air_temperature: number;
@@ -13,4 +15,5 @@ export type HistoryRange = "24h" | "7d" | "15d";
 
 export type HistoryPoint = HistoricalReading & {
   timestamp: number;
+  daylight_state?: DaylightState;
 };

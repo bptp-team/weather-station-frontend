@@ -3,7 +3,7 @@ import type { HistoryPoint } from "../types";
 import { mapHistoryPoints, mergeLivePoint, parseLiveHistoryMessage } from "./historyMappers";
 
 describe("mapHistoryPoints", () => {
-  it("sorts readings chronologically and preserves numeric values", () => {
+  it("preserves the order received and preserves numeric values", () => {
     const later = {
       device_id: "station-01",
       air_temperature: 23.45,
@@ -17,8 +17,8 @@ describe("mapHistoryPoints", () => {
     const earlier = { ...later, air_temperature: 22.1, received_at: "2026-09-13T11:00:00Z" };
 
     expect(mapHistoryPoints([later, earlier])).toMatchObject([
-      { received_at: earlier.received_at, air_temperature: 22.1 },
       { received_at: later.received_at, air_temperature: 23.45 },
+      { received_at: earlier.received_at, air_temperature: 22.1 },
     ]);
   });
 });

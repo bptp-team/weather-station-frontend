@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import type { DaylightInterpretation } from "../../daylight/daylightInterpreter";
+import { interpretDaylight } from "../../daylight/daylightInterpreter";
 import {
   formatWeatherSnapshot,
   type ConnectionState,
@@ -9,6 +11,7 @@ import { createLiveReadingsStream } from "../api/liveReadingsStream";
 
 export function useLiveReadings(stationId: string) {
   const [snapshot, setSnapshot] = useState<FormattedWeatherSnapshot | null>(null);
+  const [daylight, setDaylight] = useState<DaylightInterpretation | null>(null);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [lastError, setLastError] = useState<string | null>(null);
 
@@ -17,6 +20,7 @@ export function useLiveReadings(stationId: string) {
 
     setConnectionState("connecting");
     setSnapshot(null);
+    setDaylight(null);
     setLastError(null);
 
     eventSource.onopen = () => {
@@ -26,7 +30,9 @@ export function useLiveReadings(stationId: string) {
 
     eventSource.onmessage = (event) => {
       try {
-        setSnapshot(formatWeatherSnapshot(parseWeatherSnapshot(event.data)));
+        const parsedSnapshot = parseWeatherSnapshot(event.data);
+        setSnapshot(formatWeatherSnapshot(parsedSnapshot));
+        setDaylight(interpretDaylight(parsedSnapshot.daylight));
       } catch {
         setLastError("Não foi possível ler a atualização meteorológica recebida.");
       }
@@ -40,5 +46,5 @@ export function useLiveReadings(stationId: string) {
     return () => eventSource.close();
   }, [stationId]);
 
-  return { snapshot, connectionState, lastError };
+  return { snapshot, daylight, connectionState, lastError };
 }

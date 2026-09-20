@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { formatConnectionState, formatCountdown } from "../../../weatherFormatter";
 import { getLiveReadingsStreamUrl } from "../api/liveReadingsStream";
 import { useLiveReadings } from "../hooks/useLiveReadings";
@@ -8,14 +8,14 @@ const measurementDefinitions = [
   { key: "air_pressure", label: "Pressão do ar", unit: "atm", icon: "PRES" },
   { key: "air_humidity", label: "Umidade do ar", unit: "%", icon: "HUM" },
   { key: "air_quality", label: "Qualidade do ar", unit: "AQI", icon: "AQ" },
-  { key: "daylight", label: "Luz natural", unit: "lx", icon: "LUX" },
+  { key: "daylight", label: "Momento do dia", unit: "", icon: "LDR" },
   { key: "precipitation_interval", label: "Precipitação (intervalo)", unit: "mm", icon: "CHUVA" },
 ] as const;
 
 type Props = { stationId: string };
 
 export function LiveDashboard({ stationId }: Props) {
-  const { snapshot, connectionState, lastError } = useLiveReadings(stationId);
+  const { snapshot, daylight, connectionState, lastError } = useLiveReadings(stationId);
   const streamUrl = getLiveReadingsStreamUrl(stationId);
   const receivedAt = snapshot?.received_at ?? "Aguardando a primeira leitura";
   const [now, setNow] = useState(() => Date.now());
@@ -64,16 +64,25 @@ export function LiveDashboard({ stationId }: Props) {
 
       <section className="measurement-grid" aria-label="Medições meteorológicas">
         {measurementDefinitions.map((measurement) => {
-          const value = snapshot?.[measurement.key];
+          const value =
+            measurement.key === "daylight" ? daylight?.state : snapshot?.[measurement.key];
+          const daylightStyle =
+            measurement.key === "daylight" && daylight
+              ? ({ "--daylight-color": daylight.color } as CSSProperties)
+              : undefined;
           return (
-            <article className="measurement" key={measurement.key}>
+            <article
+              className={`measurement${measurement.key === "daylight" ? " measurement-daylight" : ""}`}
+              key={measurement.key}
+              style={daylightStyle}
+            >
               <div className="measurement-heading">
                 <span className="measurement-icon">{measurement.icon}</span>
                 <span>{measurement.label}</span>
               </div>
               <p className="measurement-value">
                 {value === undefined ? "--" : value}
-                <small>{measurement.unit}</small>
+                {measurement.unit && <small>{measurement.unit}</small>}
               </p>
             </article>
           );

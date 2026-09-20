@@ -126,6 +126,40 @@ docker history weather-station-frontend     # size of each layer
   `/healthz` for the **container health check**.
 - `docker stop` sends `SIGQUIT`, which lets **nginx finish current requests**
   before the container stops.
+
+## LDR daylight interpretation
+
+The backend continues to send and store `daylight` as the raw LDR reading from
+the ESP32. The frontend does not change that value, convert it to lux, or send
+an interpreted value back to the backend. Interpretation is presentation-only.
+
+The configuration and interpretation code live under
+`src/features/daylight/`. The limits, labels, and colors are centralized in
+`daylightConfig.ts` so they can be calibrated without scattering thresholds
+through components.
+
+The LDR is inverted relative to perceived brightness: lower readings mean more
+light and higher readings mean less light. The frontend classifies each reading
+directly, without using a previous reading or calculating a transition.
+
+There is intentionally no moving average, smoothing, confirmation delay,
+hysteresis, or stabilization. The live card changes its label and color as
+soon as a new reading is received. The daylight history keeps the order
+provided by the API and appends the newly received SSE reading as the newest
+point; the frontend does not reorder timestamps.
+
+The initial calibration uses these ranges:
+
+| Raw LDR range | Initial interpretation |
+| --- | --- |
+| `0-2000` | `DIA` |
+| `2001-4095` | `NOITE` |
+
+The live card shows only the interpreted moment of day and its color. The
+daylight history chart keeps the raw `daylight` series and shows its numeric
+values on the Y-axis, rendering the series with Recharts `type="monotone"`.
+The chart and tooltip show only the `DIA` or `NOITE` classification. The raw
+value is not presented as a physical unit or as lux.
 - `.dockerignore` **blocks every file by default**. When the build starts
   needing a **new file** (for example `postcss.config.js`), **add it both** to
   `.dockerignore` **and** to a `COPY` instruction in the `Dockerfile`.

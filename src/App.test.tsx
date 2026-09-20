@@ -13,6 +13,7 @@ describe("App", () => {
     expect(markup).toContain("station-01");
     expect(markup).toContain("Última atualização");
     expect(markup).toContain("Aguardando a primeira leitura");
+    expect(markup).toContain("Momento do dia");
     expect(markup).toContain('data-testid="history-module-fallback"');
   });
 });

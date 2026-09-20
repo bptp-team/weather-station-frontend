@@ -142,6 +142,12 @@ h1 {
   border: 1px solid #d8e6df;
   border-radius: 6px;
 }
+.measurement-daylight {
+  border-top: 4px solid var(--daylight-color, #b9d3c8);
+}
+.measurement-daylight .measurement-icon {
+  color: var(--daylight-color, #17735f);
+}
 .measurement-heading {
   display: flex;
   align-items: center;
@@ -243,6 +249,24 @@ h1 {
   margin: 5px 0 0;
   color: #6b7c76;
   font-size: 0.68rem;
+}
+.chart-tooltip {
+  display: grid;
+  gap: 4px;
+  padding: 9px 11px;
+  color: #123c3a;
+  background: #fff;
+  border: 1px solid #b9d3c8;
+  border-radius: 4px;
+  box-shadow: 0 5px 16px rgba(18, 60, 58, 0.12);
+  font-size: 0.72rem;
+}
+.chart-tooltip span {
+  color: #6b7c76;
+  font-size: 0.66rem;
+}
+.daylight-chart {
+  border-top: 4px solid var(--daylight-color, #b9d3c8);
 }
 .history-chart-body {
   width: 100%;
