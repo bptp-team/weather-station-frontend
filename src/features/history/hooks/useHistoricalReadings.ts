@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createLiveReadingsStream } from "../../live/api/liveReadingsStream";
 import { fetchHistoricalReadings } from "../api/historicalReadingsApi";
 import { getHistoryRange, getRangeMilliseconds } from "../dateRanges";
@@ -9,11 +9,8 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
   const [data, setData] = useState<HistoryPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [retryKey, setRetryKey] = useState(0);
   const rangeMsRef = useRef(getRangeMilliseconds(range));
   rangeMsRef.current = getRangeMilliseconds(range);
-
-  const retry = useCallback(() => setRetryKey((key) => key + 1), []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -36,7 +33,7 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
       });
 
     return () => controller.abort();
-  }, [range, retryKey, stationId]);
+  }, [range, stationId]);
 
   useEffect(() => {
     const eventSource = createLiveReadingsStream(stationId);
@@ -52,5 +49,5 @@ export function useHistoricalReadings(stationId: string, range: HistoryRange) {
     return () => eventSource.close();
   }, [stationId]);
 
-  return { data, isLoading, error, retry };
+  return { data, isLoading, error };
 }

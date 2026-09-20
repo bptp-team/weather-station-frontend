@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
+import { FeedbackMessage } from "../../../components/FeedbackMessage";
 import { formatConnectionState, formatCountdown } from "../../../weatherFormatter";
 import { getLiveReadingsStreamUrl } from "../api/liveReadingsStream";
 import { useLiveReadings } from "../hooks/useLiveReadings";
@@ -60,7 +61,7 @@ export function LiveDashboard({ stationId }: Props) {
         </div>
       </section>
 
-      {lastError && <p className="error-message">{lastError}</p>}
+      {lastError && <FeedbackMessage variant="error">{lastError}</FeedbackMessage>}
 
       <section className="measurement-grid" aria-label="Medições meteorológicas">
         {measurementDefinitions.map((measurement) => {

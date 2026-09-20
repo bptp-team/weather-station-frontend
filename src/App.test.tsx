@@ -16,4 +16,10 @@ describe("App", () => {
     expect(markup).toContain("Momento do dia");
     expect(markup).toContain('data-testid="history-module-fallback"');
   });
+
+  it("uses the viewport-height shell so the app stays inside the available screen height", () => {
+    const markup = renderToStaticMarkup(<App />);
+
+    expect(markup).toContain('class="app-shell app-shell--viewport"');
+  });
 });

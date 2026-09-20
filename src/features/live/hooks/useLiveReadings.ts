@@ -40,7 +40,7 @@ export function useLiveReadings(stationId: string) {
 
     eventSource.onerror = () => {
       setConnectionState("disconnected");
-      setLastError("O fluxo está indisponível. Tentando novamente...");
+      setLastError("A atualização ao vivo não está disponível.");
     };
 
     return () => eventSource.close();

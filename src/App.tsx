@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { FeedbackMessage } from "./components/FeedbackMessage";
 import { LiveDashboard } from "./features/live";
 
 const selectedStationId = "station-01";
@@ -17,16 +18,14 @@ function HistoryModuleFallback() {
       data-testid="history-module-fallback"
       aria-labelledby="history-loading-title"
     >
-      <p id="history-loading-title" className="history-state">
-        Carregando histórico...
-      </p>
+      <FeedbackMessage>Carregando histórico...</FeedbackMessage>
     </section>
   );
 }
 
 function App() {
   return (
-    <main className="app-shell">
+    <main className="app-shell app-shell--viewport">
       <LiveDashboard stationId={selectedStationId} />
       <Suspense fallback={<HistoryModuleFallback />}>
         <HistoryDashboard stationId={selectedStationId} />

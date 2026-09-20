@@ -12,10 +12,17 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-y: auto;
 }
 
 body::before {
@@ -30,8 +37,13 @@ body::before {
 
 .app-shell {
   width: min(1080px, calc(100% - 40px));
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 56px 0 32px;
+  padding: 24px 0 16px;
+}
+
+.app-shell--viewport {
+  height: 100vh;
 }
 
 .topbar {
@@ -48,8 +60,8 @@ body::before {
 }
 h1 {
   margin: 0;
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
-  line-height: 0.95;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1;
   font-weight: 600;
 }
 
@@ -121,13 +133,18 @@ h1 {
   font-weight: 500;
 }
 
-.error-message {
+.feedback-message {
   margin: 28px 0 0;
-  padding: 12px 15px;
-  color: #8d3d2e;
-  border-left: 3px solid #c65a43;
-  background: #fff0eb;
+  padding: 22px;
+  color: #496056;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px dashed #b9d3c8;
   font-size: 0.78rem;
+}
+.feedback-message--error {
+  color: #8d3d2e;
+  border-color: #c65a43;
+  background: #fff0eb;
 }
 .measurement-grid {
   display: grid;
@@ -144,9 +161,6 @@ h1 {
 }
 .measurement-daylight {
   border-top: 4px solid var(--daylight-color, #b9d3c8);
-}
-.measurement-daylight .measurement-icon {
-  color: var(--daylight-color, #17735f);
 }
 .measurement-heading {
   display: flex;
@@ -273,35 +287,6 @@ h1 {
   height: 240px;
   margin-top: 12px;
 }
-.history-state {
-  padding: 22px;
-  color: #496056;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px dashed #b9d3c8;
-  font-size: 0.78rem;
-}
-.history-state-error {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  color: #8d3d2e;
-  border-color: #c65a43;
-  background: #fff0eb;
-}
-.history-state-error p {
-  margin: 0;
-}
-.history-state-error button {
-  padding: 9px 12px;
-  color: #fff;
-  background: #8d3d2e;
-  border: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  font: inherit;
-}
-
 @media (max-width: 700px) {
   .app-shell {
     width: min(100% - 28px, 520px);
