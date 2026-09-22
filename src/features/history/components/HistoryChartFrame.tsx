@@ -2,6 +2,7 @@ import type { ComponentType, ReactNode } from "react";
 import { CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { HistoryPoint } from "../types";
 import { formatChartDate, formatChartValue } from "./ChartTooltip";
+import { chartColors, chartDimensions } from "../../../styles/chartTokens";
 import { HistoryChartShell } from "./HistoryChartShell";
 
 type ChartComponentProps = {
@@ -33,17 +34,17 @@ export function HistoryChartFrame({
   return (
     <HistoryChartShell title={title} description={description}>
       <div>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={chartDimensions.containerHeight}>
           <ChartComponent data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#d8e6df" />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
             <XAxis
               dataKey="timestamp"
               tickFormatter={formatChartDate}
               type="number"
               domain={["dataMin", "dataMax"]}
-              tickMargin={12}
+              tickMargin={chartDimensions.xAxisTickMargin}
             />
-            <YAxis width="auto" unit={axisUnit} tickMargin={10} />
+            <YAxis width="auto" unit={axisUnit} tickMargin={chartDimensions.yAxisTickMargin} />
             <Tooltip
               labelFormatter={(value) => formatChartDate(Number(value))}
               formatter={(value) =>

@@ -1,6 +1,7 @@
 import { Line, LineChart } from "recharts";
 import type { HistoryPoint } from "../../types";
 import { HistoryChartFrame } from "../HistoryChartFrame";
+import { chartColors } from "../../../../styles/chartTokens";
 
 type Props = { data: HistoryPoint[] };
 
@@ -17,7 +18,7 @@ export function AirQualityChart({ data }: Props) {
         type="stepAfter"
         dataKey="air_quality"
         name="Valor bruto"
-        stroke="#8d3d2e"
+        stroke={chartColors.airQuality}
         dot={false}
       />
     </HistoryChartFrame>

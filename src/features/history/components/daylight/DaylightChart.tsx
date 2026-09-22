@@ -2,6 +2,7 @@ import { Area, AreaChart } from "recharts";
 import { interpretDaylight } from "../../../daylight/daylightInterpreter";
 import type { HistoryPoint } from "../../types";
 import { HistoryChartFrame } from "../HistoryChartFrame";
+import { chartColors, chartOpacities } from "../../../../styles/chartTokens";
 
 type Props = { data: HistoryPoint[] };
 
@@ -19,9 +20,9 @@ export function DaylightChart({ data }: Props) {
         type="monotone"
         dataKey="daylight"
         name="LDR"
-        stroke="#b27a24"
-        fill="#ead8a6"
-        fillOpacity={0.6}
+        stroke={chartColors.daylight}
+        fill={chartColors.daylightArea}
+        fillOpacity={chartOpacities.daylightArea}
       />
     </HistoryChartFrame>
   );

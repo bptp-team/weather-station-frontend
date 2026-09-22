@@ -1,6 +1,7 @@
 import { Area, AreaChart } from "recharts";
 import type { HistoryPoint } from "../../types";
 import { HistoryChartFrame } from "../HistoryChartFrame";
+import { chartColors, chartOpacities } from "../../../../styles/chartTokens";
 
 type Props = { data: HistoryPoint[] };
 
@@ -18,9 +19,9 @@ export function HumidityChart({ data }: Props) {
         type="monotone"
         dataKey="air_humidity"
         name="Umidade"
-        stroke="#17735f"
-        fill="#a6ccc0"
-        fillOpacity={0.55}
+        stroke={chartColors.humidity}
+        fill={chartColors.humidityArea}
+        fillOpacity={chartOpacities.humidityArea}
       />
     </HistoryChartFrame>
   );

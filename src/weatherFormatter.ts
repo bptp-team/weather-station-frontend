@@ -21,7 +21,7 @@ export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField | "rec
   received_at_raw: string;
 } & Record<NumericField, string>;
 
-const FIVE_MINUTES_IN_MS = 5 * 60 * 1000;
+const READING_INTERVAL_IN_MS = 5 * 60 * 1000;
 
 export function formatConnectionState(state: ConnectionState): string {
   return connectionStateLabels[state];
@@ -35,7 +35,7 @@ export function formatCountdown(value: string | number, now = Date.now()): strin
   }
 
   const elapsedMs = Math.max(0, now - timestamp);
-  const remainingMs = Math.max(0, FIVE_MINUTES_IN_MS - elapsedMs);
+  const remainingMs = Math.max(0, READING_INTERVAL_IN_MS - elapsedMs);
   const totalSeconds = Math.ceil(remainingMs / 1000);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;

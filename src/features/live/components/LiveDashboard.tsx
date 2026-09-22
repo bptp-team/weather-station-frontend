@@ -15,12 +15,16 @@ const measurementDefinitions = [
 
 type Props = { stationId: string };
 
+const FORMATTED_READING_INTERVAL = "01:00";
+
 export function LiveDashboard({ stationId }: Props) {
   const { snapshot, daylight, connectionState, lastError } = useLiveReadings(stationId);
   const streamUrl = getLiveReadingsStreamUrl(stationId);
   const receivedAt = snapshot?.received_at ?? "Aguardando a primeira leitura";
   const [now, setNow] = useState(() => Date.now());
-  const countdown = snapshot ? formatCountdown(snapshot.received_at_raw, now) : "05:00";
+  const countdown = snapshot
+    ? formatCountdown(snapshot.received_at_raw, now)
+    : FORMATTED_READING_INTERVAL;
 
   useEffect(() => {
     if (!snapshot) {

@@ -1,6 +1,7 @@
 import { Line, LineChart } from "recharts";
 import type { HistoryPoint } from "../../types";
 import { HistoryChartFrame } from "../HistoryChartFrame";
+import { chartColors } from "../../../../styles/chartTokens";
 
 type Props = { data: HistoryPoint[] };
 
@@ -18,7 +19,7 @@ export function PrecipitationIntervalChart({ data }: Props) {
         type="monotone"
         dataKey="precipitation_interval"
         name="Precipitação"
-        stroke="#1d7bb5"
+        stroke={chartColors.precipitation}
         dot={false}
       />
     </HistoryChartFrame>
