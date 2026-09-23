@@ -52,16 +52,16 @@ describe("formatWeatherSnapshot", () => {
 });
 
 describe("formatCountdown", () => {
-  it("returns the remaining time in mm:ss based on a five-minute refresh window", () => {
+  it("returns the remaining time in mm:ss based on a one-minute refresh window", () => {
     const timestamp = "2026-09-13T12:00:00.000Z";
-    const now = new Date("2026-09-13T12:02:30.000Z").getTime();
+    const now = new Date("2026-09-13T12:00:30.000Z").getTime();
 
-    expect(formatCountdown(timestamp, now)).toBe("02:30");
+    expect(formatCountdown(timestamp, now)).toBe("00:30");
   });
 
   it("never goes below zero", () => {
     const timestamp = "2026-09-13T12:00:00.000Z";
-    const now = new Date("2026-09-13T12:05:01.000Z").getTime();
+    const now = new Date("2026-09-13T12:01:01.000Z").getTime();
 
     expect(formatCountdown(timestamp, now)).toBe("00:00");
   });

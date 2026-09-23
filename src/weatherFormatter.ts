@@ -21,7 +21,7 @@ export type FormattedWeatherSnapshot = Omit<WeatherSnapshot, NumericField | "rec
   received_at_raw: string;
 } & Record<NumericField, string>;
 
-const READING_INTERVAL_IN_MS = 5 * 60 * 1000;
+const READING_INTERVAL_IN_MS = 60 * 1000;
 
 export function formatConnectionState(state: ConnectionState): string {
   return connectionStateLabels[state];
