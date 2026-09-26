@@ -5,8 +5,8 @@ import {
   formatWeatherSnapshot,
   type ConnectionState,
   type FormattedWeatherSnapshot,
-} from "../../../weatherFormatter";
-import { parseWeatherSnapshot } from "../../../weatherSnapshot";
+} from "../../../shared/weather/weatherFormatter";
+import { parseWeatherSnapshot } from "../../../shared/weather/weatherSnapshot";
 import { createLiveReadingsStream } from "../api/liveReadingsStream";
 
 export function useLiveReadings(stationId: string) {

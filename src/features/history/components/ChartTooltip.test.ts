@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDateTime } from "../../../weatherFormatter";
+import { formatDateTime } from "../../../shared/weather/weatherFormatter";
 import { formatChartDate, formatChartValue } from "./ChartTooltip";
 
 describe("formatChartDate", () => {

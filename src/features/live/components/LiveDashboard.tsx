@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { FeedbackMessage } from "../../../components/FeedbackMessage";
-import { formatConnectionState, formatCountdown } from "../../../weatherFormatter";
+import { formatConnectionState, formatCountdown } from "../../../shared/weather/weatherFormatter";
 import { getLiveReadingsStreamUrl } from "../api/liveReadingsStream";
 import { useLiveReadings } from "../hooks/useLiveReadings";
 

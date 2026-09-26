@@ -1,4 +1,4 @@
-import { parseWeatherSnapshot } from "../../../weatherSnapshot";
+import { parseWeatherSnapshot } from "../../../shared/weather/weatherSnapshot";
 import { interpretDaylight } from "../../daylight/daylightInterpreter";
 import type { HistoricalReading, HistoryPoint } from "../types";
 

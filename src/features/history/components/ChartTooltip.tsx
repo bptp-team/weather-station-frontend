@@ -1,4 +1,4 @@
-import { formatDateTime } from "../../../weatherFormatter";
+import { formatDateTime } from "../../../shared/weather/weatherFormatter";
 
 export function formatChartDate(timestamp: number) {
   return formatDateTime(timestamp, {
