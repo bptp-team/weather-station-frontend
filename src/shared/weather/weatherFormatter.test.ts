@@ -8,9 +8,9 @@ import {
 
 describe("formatConnectionState", () => {
   it.each([
-    ["connecting", "conectando"],
-    ["connected", "conectado"],
-    ["disconnected", "desconectado"],
+    ["connecting", "Conectando"],
+    ["connected", "Conectado"],
+    ["disconnected", "Desconectado"],
   ] as const)("maps %s to %s", (state, expectedLabel) => {
     expect(formatConnectionState(state)).toBe(expectedLabel);
   });

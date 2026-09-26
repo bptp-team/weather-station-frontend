@@ -3,9 +3,9 @@ import type { WeatherSnapshot } from "./weatherSnapshot";
 export type ConnectionState = "connecting" | "connected" | "disconnected";
 
 const connectionStateLabels: Record<ConnectionState, string> = {
-  connecting: "conectando",
-  connected: "conectado",
-  disconnected: "desconectado",
+  connecting: "Conectando",
+  connected: "Conectado",
+  disconnected: "Desconectado",
 };
 
 type NumericField =

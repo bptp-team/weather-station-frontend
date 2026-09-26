@@ -22,8 +22,7 @@ export function HistoryDashboard({ stationId }: Props) {
     <section className="history-section" aria-labelledby="history-title">
       <div className="history-header">
         <div>
-          <p className="panel-label">Leituras anteriores</p>
-          <h2 id="history-title">Histórico meteorológico</h2>
+          <h2 id="history-title">Histórico</h2>
         </div>
         <label className="range-control">
           <span>Período</span>
