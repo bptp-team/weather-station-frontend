@@ -7,6 +7,8 @@ export type HistoricalReading = {
   air_humidity: number;
   air_quality: number;
   daylight: number;
+  latitude?: number | null;
+  longitude?: number | null;
   precipitation_interval: number;
   received_at: string;
 };

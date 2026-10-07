@@ -67,6 +67,8 @@ export function formatWeatherSnapshot(snapshot: WeatherSnapshot): FormattedWeath
     air_humidity: snapshot.air_humidity.toFixed(2),
     air_quality: snapshot.air_quality.toFixed(2),
     daylight: snapshot.daylight.toFixed(2),
+    latitude: snapshot.latitude,
+    longitude: snapshot.longitude,
     precipitation_interval: snapshot.precipitation_interval.toFixed(2),
     received_at: formatDateTime(snapshot.received_at, {
       hour: "2-digit",

@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { FeedbackMessage } from "../../../components/FeedbackMessage";
 import { formatConnectionState, formatCountdown } from "../../../shared/weather/weatherFormatter";
 import { useLiveReadings } from "../hooks/useLiveReadings";
+import { StationLocationCard } from "./StationLocationCard";
 
 const measurementDefinitions = [
   { key: "air_temperature", label: "Temperatura do ar", unit: "ºC" },
@@ -38,11 +39,7 @@ export function LiveDashboard({ stationId }: Props) {
   }, [snapshot]);
 
   return (
-    <>
-      <header className="topbar">
-        <h1>Monitor meteorológico</h1>
-      </header>
-
+    <div className="live-dashboard">
       <section className="hero-panel" aria-live="polite">
         <div>
           <div className="station-label-row">
@@ -69,31 +66,39 @@ export function LiveDashboard({ stationId }: Props) {
 
       {lastError && <FeedbackMessage variant="error">{lastError}</FeedbackMessage>}
 
-      <section className="measurement-grid" aria-label="Medições meteorológicas">
-        {measurementDefinitions.map((measurement) => {
-          const value =
-            measurement.key === "daylight" ? daylight?.state : snapshot?.[measurement.key];
-          const daylightStyle =
-            measurement.key === "daylight" && daylight
-              ? ({ "--daylight-color": daylight.color } as CSSProperties)
-              : undefined;
-          return (
-            <article
-              className={`measurement${measurement.key === "daylight" ? " measurement-daylight" : ""}`}
-              key={measurement.key}
-              style={daylightStyle}
-            >
-              <div className="measurement-heading">
-                <span>{measurement.label}</span>
-              </div>
-              <p className="measurement-value">
-                {value === undefined ? "--" : value}
-                {measurement.unit && <small>{measurement.unit}</small>}
-              </p>
-            </article>
-          );
-        })}
-      </section>
-    </>
+      <div className="live-overview-grid">
+        <section className="measurement-grid" aria-label="Medições meteorológicas">
+          {measurementDefinitions.map((measurement) => {
+            const value =
+              measurement.key === "daylight" ? daylight?.state : snapshot?.[measurement.key];
+            const daylightStyle =
+              measurement.key === "daylight" && daylight
+                ? ({ "--daylight-color": daylight.color } as CSSProperties)
+                : undefined;
+            return (
+              <article
+                className={`measurement${measurement.key === "daylight" ? " measurement-daylight" : ""}`}
+                key={measurement.key}
+                style={daylightStyle}
+              >
+                <div className="measurement-heading">
+                  <span>{measurement.label}</span>
+                </div>
+                <p className="measurement-value">
+                  {value === undefined ? "--" : value}
+                  {measurement.unit && <small>{measurement.unit}</small>}
+                </p>
+              </article>
+            );
+          })}
+        </section>
+
+        <StationLocationCard
+          stationId={stationId}
+          latitude={snapshot?.latitude ?? null}
+          longitude={snapshot?.longitude ?? null}
+        />
+      </div>
+    </div>
   );
 }

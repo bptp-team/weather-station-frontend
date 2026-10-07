@@ -103,17 +103,12 @@ body {
 }
 
 .app-shell--viewport {
-  height: 100vh;
+  min-height: 100vh;
 }
-
-.topbar {
-  margin-bottom: var(--space-8);
-}
-h1 {
-  margin: 0;
-  font-size: var(--font-size-3xl);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-semibold);
+.live-dashboard {
+  display: flex;
+  min-height: calc(100vh - var(--space-6) - var(--space-4));
+  flex-direction: column;
 }
 
 .connection {
@@ -203,14 +198,24 @@ h1 {
   border-color: var(--color-error);
   background: var(--color-surface-error);
 }
-.measurement-grid {
+.live-overview-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: var(--space-3);
+  flex: 1;
+  min-height: 0;
   margin-top: var(--space-8);
 }
+.measurement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: 0;
+}
 .measurement {
-  min-height: var(--size-card-min-height);
+  min-height: 0;
   padding: var(--space-5);
   background: var(--color-surface);
   border: var(--border-width-thin) solid var(--color-border);
@@ -219,16 +224,54 @@ h1 {
 .measurement-daylight {
   border-top: var(--border-width-accent) solid var(--daylight-color, var(--color-border-strong));
 }
+.station-location-section {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+.station-location-heading {
+  margin: 0 0 var(--space-3);
+}
+.station-location-map {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+}
+.station-location-map .leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+.station-map-loading {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-page);
+}
+.station-location-coordinates,
+.station-location-pending {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
 .measurement-heading {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
   text-transform: uppercase;
 }
 .measurement-value {
-  margin: var(--space-7) 0 0;
+  margin: var(--space-4) 0 0;
   color: var(--color-surface-brand);
   font-size: var(--font-size-value);
   line-height: var(--line-height-tight);
@@ -321,8 +364,8 @@ h1 {
     width: min(calc(100% - var(--space-7)), var(--size-mobile-content-max));
     padding-top: var(--space-8);
   }
-  .topbar {
-    margin-bottom: var(--space-6);
+  .live-dashboard {
+    min-height: 0;
   }
   .hero-panel {
     align-items: flex-start;
@@ -333,16 +376,28 @@ h1 {
     text-align: left;
   }
   .measurement-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
     gap: var(--space-2);
+  }
+  .live-overview-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    flex: initial;
     margin-top: var(--space-6);
   }
   .measurement {
     min-height: var(--size-card-min-height-mobile);
     padding: var(--space-4);
   }
+  .station-location-section {
+    min-height: 25rem;
+    padding: var(--space-4);
+  }
+  .station-location-map {
+    min-height: 20rem;
+  }
   .measurement-value {
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
   }
   .history-header {
     align-items: flex-start;

@@ -5,6 +5,8 @@ export type WeatherSnapshot = {
   air_humidity: number;
   air_quality: number;
   daylight: number;
+  latitude: number | null;
+  longitude: number | null;
   precipitation_interval: number;
   received_at: string;
 };
@@ -35,7 +37,36 @@ export function parseWeatherSnapshot(eventData: string): WeatherSnapshot {
     }
   }
 
-  return payload as unknown as WeatherSnapshot;
+  const hasLegacyCoordinates = payload.latitude === undefined && payload.longitude === undefined;
+  const latitude = hasLegacyCoordinates ? null : payload.latitude;
+  const longitude = hasLegacyCoordinates ? null : payload.longitude;
+
+  if (
+    !isCoordinatePair(latitude, longitude) ||
+    !isValidCoordinate(latitude, -90, 90) ||
+    !isValidCoordinate(longitude, -180, 180)
+  ) {
+    throw new Error("Invalid weather snapshot");
+  }
+
+  return { ...payload, latitude, longitude } as unknown as WeatherSnapshot;
+}
+
+function isCoordinatePair(latitude: unknown, longitude: unknown): boolean {
+  return (
+    (latitude === null && longitude === null) ||
+    (typeof latitude === "number" && typeof longitude === "number")
+  );
+}
+
+function isValidCoordinate(coordinate: unknown, minimum: number, maximum: number): boolean {
+  return (
+    coordinate === null ||
+    (typeof coordinate === "number" &&
+      Number.isFinite(coordinate) &&
+      coordinate >= minimum &&
+      coordinate <= maximum)
+  );
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

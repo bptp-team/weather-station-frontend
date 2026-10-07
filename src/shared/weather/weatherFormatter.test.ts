@@ -25,6 +25,8 @@ describe("formatWeatherSnapshot", () => {
       air_humidity: 45,
       air_quality: 4.1,
       daylight: 2748.9,
+      latitude: -23.20027778,
+      longitude: -45.89111111,
       precipitation_interval: 0.503,
       received_at: "2026-09-06T00:00:00+00:00",
     };

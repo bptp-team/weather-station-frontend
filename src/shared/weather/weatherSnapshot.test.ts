@@ -8,6 +8,8 @@ const validSnapshot = {
   air_humidity: 45,
   air_quality: 4,
   daylight: 2748,
+  latitude: -23.20027778,
+  longitude: -45.89111111,
   precipitation_interval: 0.5,
   received_at: "2026-09-06T00:00:00+00:00",
 };
@@ -31,5 +33,30 @@ describe("parseWeatherSnapshot", () => {
     expect(() => parseWeatherSnapshot(JSON.stringify(nonFiniteSnapshot))).toThrow(
       "Invalid weather snapshot",
     );
+  });
+
+  it("rejects coordinates outside geographic ranges", () => {
+    const invalidLatitude = { ...validSnapshot, latitude: 90.1 };
+    const invalidLongitude = { ...validSnapshot, longitude: -180.1 };
+
+    expect(() => parseWeatherSnapshot(JSON.stringify(invalidLatitude))).toThrow(
+      "Invalid weather snapshot",
+    );
+    expect(() => parseWeatherSnapshot(JSON.stringify(invalidLongitude))).toThrow(
+      "Invalid weather snapshot",
+    );
+  });
+
+  it("normalizes snapshots from older backends without coordinates", () => {
+    const legacySnapshot = {
+      ...validSnapshot,
+      latitude: undefined,
+      longitude: undefined,
+    };
+
+    expect(parseWeatherSnapshot(JSON.stringify(legacySnapshot))).toMatchObject({
+      latitude: null,
+      longitude: null,
+    });
   });
 });
