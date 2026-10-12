@@ -29,6 +29,18 @@ make prod
 This runs the production build first and serves the compiled static bundle with
 Vite preview on `http://localhost:5173`.
 
+Both targets **forward** `/api` **to the backend**, so the page works from **any
+machine on the network** (e.g. `http://192.168.x.x:5173`) **without CORS**.
+Set the backend address in `.env` and keep `VITE_WEATHER_API_URL` **empty**:
+
+```sh
+VITE_WEATHER_API_URL=
+WEATHER_API_PROXY_TARGET=http://localhost:8000
+```
+
+Setting `VITE_WEATHER_API_URL` to `http://localhost:...` makes **other
+machines** call **their own** `localhost` and **breaks the app** for them.
+
 The `dev` target **automatically configures** the repository to use the
 **versioned Git hooks**. The `pre-commit` hook formats the source code and then
 checks linting and formatting. The `pre-push` hook runs linting, formatting
