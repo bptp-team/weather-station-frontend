@@ -1,6 +1,6 @@
 import type { HistoricalReading } from "../types";
 
-const apiBaseUrl = import.meta.env.VITE_WEATHER_API_URL ?? "http://localhost:8000";
+const apiBaseUrl = import.meta.env.VITE_WEATHER_API_URL ?? "";
 
 function isHistoricalReading(value: unknown): value is HistoricalReading {
   if (!value || typeof value !== "object") return false;
@@ -29,9 +29,8 @@ export async function fetchHistoricalReadings(
   to: Date,
   signal?: AbortSignal,
 ): Promise<HistoricalReading[]> {
-  const url = new URL(`/api/v1/readings/${encodeURIComponent(stationId)}`, apiBaseUrl);
-  url.searchParams.set("from", from.toISOString());
-  url.searchParams.set("to", to.toISOString());
+  const query = new URLSearchParams({ from: from.toISOString(), to: to.toISOString() });
+  const url = `${apiBaseUrl}/api/v1/readings/${encodeURIComponent(stationId)}?${query}`;
 
   const response = await fetch(url, { signal });
   if (!response.ok) {
