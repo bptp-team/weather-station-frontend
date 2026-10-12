@@ -1,4 +1,4 @@
-const apiBaseUrl = import.meta.env.VITE_WEATHER_API_URL ?? "http://localhost:8000";
+const apiBaseUrl = import.meta.env.VITE_WEATHER_API_URL ?? "";
 
 export function getLiveReadingsStreamUrl(stationId: string): string {
   return `${apiBaseUrl}/api/v1/readings/${stationId}/stream`;
