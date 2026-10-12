@@ -12,7 +12,10 @@ const reading = {
   received_at: "2026-09-13T12:00:00.000Z",
 };
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllEnvs();
+});
 
 describe("fetchHistoricalReadings", () => {
   it("requests the selected station and date range", async () => {
@@ -27,6 +30,19 @@ describe("fetchHistoricalReadings", () => {
     expect(fetchMock.mock.calls[0][0].toString()).toContain(
       `from=${encodeURIComponent(from.toISOString())}`,
     );
+  });
+
+  it("calls the API on the page's own address when no API URL is configured", async () => {
+    vi.stubEnv("VITE_WEATHER_API_URL", "");
+    vi.resetModules();
+    const { fetchHistoricalReadings: fetchFromPageAddress } =
+      await import("./historicalReadingsApi");
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response(JSON.stringify([reading]), { status: 200 }));
+
+    await fetchFromPageAddress("station-01", new Date(), new Date());
+    expect(fetchMock.mock.calls[0][0]).toMatch(/^\/api\/v1\/readings\/station-01\?/);
   });
 
   it("rejects HTTP errors and invalid payloads", async () => {
