@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import type { AirQualityInterpretation } from "../../air-quality/airQualityInterpreter";
+import { interpretAirQuality } from "../../air-quality/airQualityInterpreter";
 import type { DaylightInterpretation } from "../../daylight/daylightInterpreter";
 import { interpretDaylight } from "../../daylight/daylightInterpreter";
 import {
@@ -12,6 +14,7 @@ import { createLiveReadingsStream } from "../api/liveReadingsStream";
 export function useLiveReadings(stationId: string) {
   const [snapshot, setSnapshot] = useState<FormattedWeatherSnapshot | null>(null);
   const [daylight, setDaylight] = useState<DaylightInterpretation | null>(null);
+  const [airQuality, setAirQuality] = useState<AirQualityInterpretation | null>(null);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [lastError, setLastError] = useState<string | null>(null);
 
@@ -21,6 +24,7 @@ export function useLiveReadings(stationId: string) {
     setConnectionState("connecting");
     setSnapshot(null);
     setDaylight(null);
+    setAirQuality(null);
     setLastError(null);
 
     eventSource.onopen = () => {
@@ -33,6 +37,7 @@ export function useLiveReadings(stationId: string) {
         const parsedSnapshot = parseWeatherSnapshot(event.data);
         setSnapshot(formatWeatherSnapshot(parsedSnapshot));
         setDaylight(interpretDaylight(parsedSnapshot.daylight));
+        setAirQuality(interpretAirQuality(parsedSnapshot.air_quality));
       } catch {
         setLastError("Não foi possível ler a atualização meteorológica recebida.");
       }
@@ -46,5 +51,5 @@ export function useLiveReadings(stationId: string) {
     return () => eventSource.close();
   }, [stationId]);
 
-  return { snapshot, daylight, connectionState, lastError };
+  return { snapshot, daylight, airQuality, connectionState, lastError };
 }

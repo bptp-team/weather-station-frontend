@@ -15,7 +15,7 @@ describe("App", () => {
     expect(markup).toContain("Última atualização");
     expect(markup).toContain("Aguardando a primeira leitura");
     expect(markup).toContain("Momento do dia");
-    expect(markup).toContain("AQI");
+    expect(markup).toContain("measurement-air-quality");
     expect(markup).toContain("Localização da estação");
     expect(markup).toContain("Aguardando coordenadas da estação");
     expect(markup).toContain('data-testid="history-module-fallback"');
@@ -33,7 +33,7 @@ describe("App", () => {
       markup.match(/<div class="live-overview-grid">[\s\S]*?<\/section><\/div>/)?.[0] ?? "";
 
     expect(overviewMarkup).not.toBe("");
-    expect(overviewMarkup.match(/class="measurement(?: measurement-daylight)?"/g)).toHaveLength(6);
+    expect(overviewMarkup.match(/class="measurement(?: [^"]+)?"/g)).toHaveLength(6);
     expect(overviewMarkup).toContain('class="measurement-grid"');
     expect(overviewMarkup).toContain('class="station-location-section"');
   });

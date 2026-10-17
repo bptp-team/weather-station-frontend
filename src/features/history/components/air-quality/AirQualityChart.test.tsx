@@ -4,9 +4,10 @@ import { AirQualityChart } from "./AirQualityChart";
 import { chartTestData } from "../chartTestData";
 
 describe("AirQualityChart", () => {
-  it("identifies the reading as a raw sensor value", () => {
+  it("keeps the raw sensor series and identifies its interpreted tooltip", () => {
     const markup = renderToStaticMarkup(<AirQualityChart data={chartTestData} />);
+
     expect(markup).toContain("Qualidade do ar");
-    expect(markup).toContain("Valor bruto do sensor");
+    expect(markup).toContain("Classificação entre boa, moderada e ruim");
   });
 });

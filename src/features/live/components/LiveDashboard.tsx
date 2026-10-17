@@ -8,7 +8,7 @@ const measurementDefinitions = [
   { key: "air_temperature", label: "Temperatura do ar", unit: "ºC" },
   { key: "air_pressure", label: "Pressão do ar", unit: "atm" },
   { key: "air_humidity", label: "Umidade do ar", unit: "%" },
-  { key: "air_quality", label: "Qualidade do ar", unit: "AQI" },
+  { key: "air_quality", label: "Qualidade do ar", unit: "" },
   { key: "daylight", label: "Momento do dia", unit: "" },
   { key: "precipitation_interval", label: "Precipitação (intervalo)", unit: "mm" },
 ] as const;
@@ -18,7 +18,7 @@ type Props = { stationId: string };
 const FORMATTED_READING_INTERVAL = "01:00";
 
 export function LiveDashboard({ stationId }: Props) {
-  const { snapshot, daylight, connectionState, lastError } = useLiveReadings(stationId);
+  const { snapshot, daylight, airQuality, connectionState, lastError } = useLiveReadings(stationId);
   const connectionLabel = formatConnectionState(connectionState);
   const receivedAt = snapshot?.received_at ?? "Aguardando a primeira leitura";
   const [now, setNow] = useState(() => Date.now());
@@ -70,16 +70,28 @@ export function LiveDashboard({ stationId }: Props) {
         <section className="measurement-grid" aria-label="Medições meteorológicas">
           {measurementDefinitions.map((measurement) => {
             const value =
-              measurement.key === "daylight" ? daylight?.state : snapshot?.[measurement.key];
-            const daylightStyle =
+              measurement.key === "daylight"
+                ? daylight?.state
+                : measurement.key === "air_quality"
+                  ? airQuality?.state
+                  : snapshot?.[measurement.key];
+            const statusStyle =
               measurement.key === "daylight" && daylight
                 ? ({ "--daylight-color": daylight.color } as CSSProperties)
-                : undefined;
+                : measurement.key === "air_quality" && airQuality
+                  ? ({ "--air-quality-color": airQuality.color } as CSSProperties)
+                  : undefined;
+            const statusClass =
+              measurement.key === "daylight"
+                ? " measurement-daylight"
+                : measurement.key === "air_quality"
+                  ? " measurement-air-quality"
+                  : "";
             return (
               <article
-                className={`measurement${measurement.key === "daylight" ? " measurement-daylight" : ""}`}
+                className={`measurement${statusClass}`}
                 key={measurement.key}
-                style={daylightStyle}
+                style={statusStyle}
               >
                 <div className="measurement-heading">
                   <span>{measurement.label}</span>

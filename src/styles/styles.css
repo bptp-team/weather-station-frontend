@@ -224,6 +224,9 @@ body {
 .measurement-daylight {
   border-top: var(--border-width-accent) solid var(--daylight-color, var(--color-border-strong));
 }
+.measurement-air-quality {
+  border-top: var(--border-width-accent) solid var(--air-quality-color, var(--color-border-strong));
+}
 .station-location-section {
   display: flex;
   min-width: 0;
