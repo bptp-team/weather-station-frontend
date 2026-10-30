@@ -10,6 +10,7 @@
 !tsconfig.app.json
 !tsconfig.node.json
 !src/
+!public/
 !nginx/nginx.conf
 
 # Excluded even inside allowed paths

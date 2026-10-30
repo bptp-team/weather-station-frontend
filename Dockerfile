@@ -12,6 +12,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
 
 COPY index.html vite.config.ts tsconfig*.json ./
 COPY src ./src
+COPY public ./public
 
 ARG VITE_WEATHER_API_URL=""
 RUN pnpm run build
