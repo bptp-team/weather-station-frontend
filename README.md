@@ -20,6 +20,15 @@ make dev
 This starts the Vite dev server for live reloading and is intended for local
 work while developing the UI.
 
+Use the **frontend with simulated weather data** without starting the backend:
+
+```sh
+make dev-fakeapi
+```
+
+This mode provides simulated live readings and history locally. The existing
+`make dev` and `make prod` commands continue to use the backend.
+
 Use the **production-like local app** with:
 
 ```sh

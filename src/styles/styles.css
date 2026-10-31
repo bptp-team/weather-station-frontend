@@ -360,8 +360,10 @@ body {
 }
 .history-chart-body {
   width: 100%;
+  min-width: 0;
   height: var(--size-chart-height);
   margin-top: var(--space-3);
+  overflow-x: clip;
 }
 @media (max-width: 43.75rem) {
   .live-dashboard {

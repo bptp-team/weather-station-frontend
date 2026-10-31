@@ -1,4 +1,4 @@
-.PHONY: setup install install-hooks dev test build lint format format-check preview prod
+.PHONY: setup install install-hooks dev dev-fakeapi test build lint format format-check preview prod
 
 setup:
 	corepack enable
@@ -12,6 +12,9 @@ install-hooks:
 
 dev: install-hooks
 	corepack pnpm dev
+
+dev-fakeapi: install-hooks
+	corepack pnpm exec vite --mode fakeapi
 
 test:
 	corepack pnpm test
