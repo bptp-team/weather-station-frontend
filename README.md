@@ -86,6 +86,36 @@ The GitHub Actions workflow runs `lint` and `format-check` as non-mutating
 checks before the build and test steps. Formatting is performed locally by the
 pre-commit hook, not by CI.
 
+## Release
+
+Releases are created from commits on `main` using a numeric SemVer tag in the
+`major.minor.patch` format, without a `v` prefix. Before creating a tag, make
+sure the release commit is on the latest `main` and run the local checks:
+
+```sh
+make lint
+make format-check
+make test
+make build
+```
+
+Create an annotated tag for the selected version and push it to GitHub. For
+example:
+
+```sh
+VERSION=1.3.0
+git tag -a "$VERSION" -m "Release frontend $VERSION"
+git push origin "$VERSION"
+```
+
+Pushing a version tag starts the CI/CD workflow. After CI passes, it publishes
+the image with the same version to Azure Container Registry and deploys it to
+production. Do not push the tag until the release is ready to go live. Follow
+the workflow in GitHub Actions and confirm its production `/healthz` check
+passes. A published version cannot be reused; the workflow rejects a version
+whose image already exists. The pipeline uses the Git tag as the image version
+and does not create a GitHub Release.
+
 ## Docker
 
 The `Dockerfile` builds the app with **Node 22** and serves the generated
