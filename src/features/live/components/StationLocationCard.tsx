@@ -43,6 +43,9 @@ export function StationLocationCard({ stationId, latitude, longitude }: Props) {
           <p className="station-location-coordinates">
             {coordinates.latitude.toFixed(6)}, {coordinates.longitude.toFixed(6)}
           </p>
+          <p className="station-location-disclaimer">
+            Localização aproximada por motivos de segurança.
+          </p>
         </>
       ) : (
         <p className="station-location-pending" role="status">

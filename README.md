@@ -178,11 +178,13 @@ value is not presented as a physical unit or as lux.
 The live dashboard displays the station's latest signed WGS 84 decimal-degree
 coordinates in a Leaflet map. Map tiles are provided by OpenStreetMap, with
 attribution displayed on the map. The firmware currently publishes the fixed
-location `-23.20027778, -45.89111111` for `station-01`; south and west are
-negative. On wide screens, the six live measurement cards sit in two columns
-beside a map that fills the same three-row height; on narrow screens, the map
-stacks below the cards. The map stays in a waiting state until a live snapshot
-includes both coordinates.
+location `-23.089397, -45.698980` for `station-01`; it is approximate for
+security reasons. South and west are negative. The dashboard fills the
+available viewport with approximately 16px of margin on all sides. On wide
+screens, the six live measurement cards sit in two columns beside a map that
+fills the same three-row height; on narrow screens, the map stacks below the
+cards. The map stays in a waiting state until a live snapshot includes both
+coordinates.
 - `.dockerignore` **blocks every file by default**. When the build starts
   needing a **new file** (for example `postcss.config.js`), **add it both** to
   `.dockerignore` **and** to a `COPY` instruction in the `Dockerfile`.
